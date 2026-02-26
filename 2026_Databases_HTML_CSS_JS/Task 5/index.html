@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Обновление записей в таблице</title>
+<link rel="stylesheet" href="style.css" type="text/css">
+<script>
+var rowCount = -1;
+
+function f() { 
+	let c0 = document.getElementById("ISBN");
+	let t = document.getElementById("tbl");
+	let r = t.getElementsByTagName("tr");
+	
+	for (let i = 1; i < r.length; i++) { // Пробегаем по всем строкам таблицы (пропустив заголовок)
+		let d = r[i].getElementsByTagName("td");
+		if ((c0.value == d[0].innerHTML) && (i != rowCount)){
+			alert("Запись с таким значением поля \"ISBN\" уже существует");
+			return;
+		}
+	}
+	
+	let d = r[rowCount].getElementsByTagName("td");
+	d[0].innerHTML = document.getElementById("ISBN").value;
+	d[1].innerHTML = document.getElementById("FIO").value;
+	d[2].innerHTML = document.getElementById("BookName").value;
+	d[3].innerHTML = document.getElementById("Year").value;
+}
+</script>
+</head>
+<body>
+<table id="tbl" cellspacing="0" cellpadding="8" border="1">
+	<caption>Авторы книг</caption>
+	<tbody class="stC">
+	<tr><th>ISBN</th><th>ФИО автора</th><th>Название книги</th><th>Год издания</th></tr>
+	<tr><td>978-5-388-00003</td><td class="stL">Иванов Сергей Степанович</td><td class="stL">Самоучитель JAVA</td><td class="stC">2019</td></tr>
+	<tr><td>978-3-478-00988</td><td class="stL">Сидорова Ольга Юрьевна</td><td class="stL">Справочник по языку JavaScript</td><td class="stC">2020</td></tr>
+	<tr><td>978-5-699-58103</td><td class="stL">Сидорова Ольга Юрьевна</td><td class="stL">JAVA за 21 день</td><td class="stC">2019</td></tr>
+	<tr><td>758-3-765-56434</td><td class="stL">Петров Иван Петрович</td><td class="stL">Сборник задач по теоретической механике</td><td class="stC">2020</td></tr>
+	<tr><td>758-3-057-37854</td><td class="stL">Иванов Сергей Степанович</td><td class="stL">Механика</td><td class="stC">2018</td></tr>
+	<tr><td>675-3-423-00375</td><td class="stL">Петров Иван Петрович</td><td class="stL">Физика</td><td class="stC">2019</td></tr>
+	</tbody>
+</table>
+<br>
+<form method="GET">
+	<table cellspacing="0" cellpadding="4" border="0">
+		<tbody class="stL">
+		<tr><td class="stR"><label for="ISBN">ISBN</label></td>
+			<td><input id="ISBN" size=15 waxlength=20></td></tr>
+		<tr><td class="stR"><label for="FIO">ФИО автора</label></td>
+			<td><input id="FIO" size=30 waxlength=40></td></tr>
+		<tr><td class="stR"><label for="BookName">Название книги</label></td>
+			<td><input id="BookName" size=40 waxlength=50></td></tr>
+		<tr><td class="stR"><label for="Year">Год издания</label></td>
+			<td><input id="Year" size=4 waxlength=4></td></tr>
+		<tr><td class="stR"><input type="button" value="Изменить выбранную запись" onclick="f()"></td>
+			<td><input type="reset" value="Очистить поля формы"></td></tr>
+		</tbody>	
+	</table>
+</form>
+
+<script>
+var qq = document.getElementById("tbl");
+qq.addEventListener("click", (e) => {		// Обработка события "e" - клик мышки на таблице
+	let cell = e.target;					// Свойства
+	let t = cell.parentElement;				// Где произошло 
+	let r = t.parentElement.children;		// Выбираем массив строк
+	
+	for (rowCount = 1; rowCount < r.length; rowCount++) {
+		if (r[rowCount] === t) {			// Идентичность объектов
+			let d = r[rowCount].getElementsByTagName("td");
+			document.getElementById("ISBN").value = d[0].innerHTML;
+			document.getElementById("FIO").value = d[1].innerHTML;
+			document.getElementById("BookName").value = d[2].innerHTML;
+			document.getElementById("Year").value = d[3].innerHTML;
+			return;
+		}
+	}
+	rowCount = -1;
+});
+</script>
+</body>
+</html>
